@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db-product
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db-product
+  template:
+    metadata:
+      labels:
+        app: db-product
+    spec:
+      containers:
+      - name: postgres
+        image: postgres:latest
+        env:
+        - name: POSTGRES_DB
+          value: product_db
+        - name: POSTGRES_USER
+          value: product_user
+        - name: POSTGRES_PASSWORD
+          value: product_pass
+        ports:
+        - containerPort: 5432
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: db-product
+spec:
+  selector:
+    app: db-product
+  ports:
+    - protocol: TCP
+      port: 5432
+      targetPort: 5432
