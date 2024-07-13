@@ -16,7 +16,7 @@ spec:
       - name: product-service
         image: ankitjhunjhunwala03/product-service:latest
         ports:
-        - containerPort: 8000
+        - containerPort: 8001
         env:
           - name: DB_NAME
             value: product_db

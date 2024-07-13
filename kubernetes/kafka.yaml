@@ -13,29 +13,31 @@ spec:
         app: kafka
     spec:
       containers:
-      - name: kafka
-        image: wurstmeister/kafka:latest
-        ports:
-        - containerPort: 9092
-        env:
-        - name: KAFKA_ZOOKEEPER_CONNECT
-          value: "zookeeper:2181"
-        - name: KAFKA_ADVERTISED_LISTENERS
-          value: "PLAINTEXT://kafka:9092"
-        - name: KAFKA_LISTENERS
-          value: "PLAINTEXT://0.0.0.0:9092"
-        - name: KAFKA_LISTENER_SECURITY_PROTOCOL_MAP
-          value: "PLAINTEXT:PLAINTEXT"
-        - name: KAFKA_INTER_BROKER_LISTENER_NAME
-          value: "PLAINTEXT"
-        - name: KAFKA_AUTO_CREATE_TOPICS_ENABLE
-          value: "true"
-        - name: KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR
-          value: "1"
-        - name: KAFKA_NUM_PARTITIONS
-          value: "1"
-        - name: KAFKA_PORT
-          value: "9092"
+        - name: kafka
+          image: wurstmeister/kafka:latest
+          ports:
+            - containerPort: 9092
+          env:
+            - name: KAFKA_ZOOKEEPER_CONNECT
+              value: "zookeeper:2181"
+            - name: KAFKA_ADVERTISED_LISTENERS
+              value: "PLAINTEXT://kafka:9092"
+            - name: KAFKA_LISTENERS
+              value: "PLAINTEXT://0.0.0.0:9092"
+            - name: KAFKA_LISTENER_SECURITY_PROTOCOL_MAP
+              value: "PLAINTEXT:PLAINTEXT"
+            - name: KAFKA_INTER_BROKER_LISTENER_NAME
+              value: "PLAINTEXT"
+            - name: KAFKA_AUTO_CREATE_TOPICS_ENABLE
+              value: "true"
+            - name: KAFKA_CREATE_TOPICS
+              value: "product_updates:1:1"
+            - name: KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR
+              value: "1"
+            - name: KAFKA_NUM_PARTITIONS
+              value: "1"
+            - name: KAFKA_PORT
+              value: "9092"
 ---
 apiVersion: v1
 kind: Service
@@ -43,8 +45,8 @@ metadata:
   name: kafka
 spec:
   ports:
-  - port: 9092
-    protocol: TCP
-    targetPort: 9092
+    - port: 9092
+      protocol: TCP
+      targetPort: 9092
   selector:
     app: kafka
